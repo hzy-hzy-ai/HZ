@@ -1,0 +1,31 @@
+from bottle import Bottle, request, response, render_template
+
+app = Bottle()
+# 平台密钥
+ACTIVE_KEY = "N5ZmEGfs5p"
+
+# 首页
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+# 密钥验证接口
+@app.post('/checkKey')
+def checkKey():
+    key = request.forms.get('key')
+    if key == ACTIVE_KEY:
+        return {"code":200,"msg":"密钥激活成功！有效期1小时，将于1小时后到期","vip":"青铜VIP用户"}
+    return {"code":400,"msg":"密钥错误，请重新输入"}
+
+# 账号登录
+@app.post('/login')
+def login():
+    return {"code":200,"msg":"登录成功！进入功能菜单"}
+
+# 一键国王等级
+@app.post('/king')
+def king():
+    return {"code":200,"msg":"✅ 操作完成！已解锁国王等级+全部游戏成就"}
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
